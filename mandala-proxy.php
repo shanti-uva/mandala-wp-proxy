@@ -8,10 +8,14 @@
 
 add_action('init', function () {
     add_rewrite_rule('^proxy/wfs/?$', 'index.php?geoserver_proxy=1', 'top');
+
+    // New TTT proxy
+    add_rewrite_rule('^proxy/ttt/?$', 'index.php?ttt_proxy=1', 'top');
 });
 
 add_filter('query_vars', function ($vars) {
     $vars[] = 'geoserver_proxy';
+    $vars[] = 'ttt_proxy';
     return $vars;
 });
 
@@ -46,6 +50,18 @@ add_action('template_redirect', function () {
         header('Content-Type: application/json', true, $status);
 
         echo $body;
+        exit;
+    }
+
+    if (get_query_var('ttt_proxy')) {
+        $target_url = 'https://ttt.thlib.org/'; // Replace with your target
+
+        // Get headers only
+        $headers = get_headers($target_url, true);
+
+        // Output as JSON
+        header('Content-Type: application/json');
+        echo json_encode($headers);
         exit;
     }
 });
