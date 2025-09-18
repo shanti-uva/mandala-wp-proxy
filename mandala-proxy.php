@@ -97,7 +97,7 @@ add_action('template_redirect', function () {
         header('Access-Control-Allow-Origin: *');// ✅ Add CORS headers
         header('Access-Control-Allow-Methods: GET, OPTIONS');
         header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept');
-        header('Content-Type: application/javascript', true, $status);
+        header('Content-Type: application/javascript; charset=UTF-8', true, $status);
 
         echo $body;
         exit;
