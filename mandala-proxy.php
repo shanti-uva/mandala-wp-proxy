@@ -122,6 +122,7 @@ add_action('template_redirect', function () {
     if (get_query_var('json_proxy')) {
         parse_str($_SERVER['QUERY_STRING'], $params);
         $base_url = $params['url'];
+        $wf = $params['wf'] ?? false;
 
         // Use wp_remote_get to proxy the request
         $response = wp_remote_get($base_url, [
@@ -142,8 +143,7 @@ add_action('template_redirect', function () {
         header('Access-Control-Allow-Origin: *');// ✅ Add CORS headers
         header('Access-Control-Allow-Methods: GET, OPTIONS');
         header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept');
-        header('Content-Type: application/javascript; charset=UTF-8', true, $status);
-
+        header('Content-Type: application/json; charset=UTF-8', true, $status);
         echo $body;
         exit;
     }
